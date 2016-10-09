@@ -1,0 +1,80 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- This file contains job definitions in schema version 2.0 format -->
+
+<job-scheduling-data xmlns="http://quartznet.sourceforge.net/JobSchedulingData" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" version="2.0">
+
+  <processing-directives>
+    <overwrite-existing-data>true</overwrite-existing-data>
+  </processing-directives>
+
+  <schedule>
+
+    <job>
+      <!--(必填) 同一个group中多个job的name不能相同-->
+      <name>sampleJob</name>
+      <!--(选填) 任务所属分组，用于标识任务所属分组-->
+      <group>sampleGroup</group>
+      <!--(选填) 任务描述，用于描述任务具体内容-->
+      <description>Sample job for Quartz Server</description>
+      <!--(必填) 任务类型，任务的具体类型及所属程序集，格式：实现了IJob接口的包含完整命名空间的类名,程序集名称-->
+      <job-type>Library.Job.SampleJob, Library.Job</job-type>
+      <durable>true</durable>
+      <recover>false</recover>
+    </job>
+
+    <trigger>
+      
+      <!--simple 简单任务的触发器，可以调度用于重复执行的任务-->
+      <!--<simple>
+        <name>sampleSimpleTrigger</name>
+        <group>sampleSimpleGroup</group>
+        <description>Simple trigger to simply fire sample job</description>
+        <job-name>sampleJob</job-name>
+        <job-group>sampleGroup</job-group>
+        <misfire-instruction>SmartPolicy</misfire-instruction>
+        <repeat-count>-1</repeat-count>
+        <repeat-interval>5000</repeat-interval>
+      </simple>-->
+      
+      <!--cron复杂任务触发器,使用cron表达式定制任务调度（强烈推荐)-->
+      <cron>
+        <!--(必填) 触发器名称，同一个分组中的名称必须不同-->
+        <name>sampleSimpleTrigger</name>
+        <!--(选填) 触发器组-->
+        <group>sampleSimpleGroup</group>
+        <!--(选填) 触发器描述-->
+        <description>Simple trigger to simply fire sample job</description>
+        <!--(必填) 要调度的任务名称，该job-name必须和对应job节点中的name完全相同-->
+        <job-name>sampleJob</job-name>
+        <!--(选填) 调度任务(job)所属分组，该值必须和job中的group完全相同-->
+        <job-group>sampleGroup</job-group>
+        <!--(选填) 任务开始执行时间utc时间，北京时间需要+08:00-->
+        <!--此值比当前时间小，启动则执行；如果比当前时间大，到时间才执行。-->
+        <start-time>2016-10-09T00:00:00+08:00</start-time>
+        <!--(必填) cron表达式，如:<cron-expression>0/10 * * * * ?</cron-expression>每10秒执行一次-->
+        <cron-expression>0/5 * * * * ?</cron-expression>
+      </cron>
+    </trigger>
+
+    <!--<job>
+      <name>freightJob</name>
+      <group>freightGroup</group>
+      <description>Freight job for Quartz Server</description>
+      <job-type>GreatMicro.MOS.Application.Main.Quartz.FreightDateJob, GreatMicro.MOS.Application.Main.Quartz</job-type>
+      <durable>true</durable>
+      <recover>false</recover>
+    </job>
+
+    <trigger>
+      <cron>
+        <name>freightSimpleTrigger</name>
+        <group>freightSimpleGroup</group>
+        <description>Freight trigger to simply fire sample job</description>
+        <job-name>freightJob</job-name>
+        <job-group>freightGroup</job-group>
+        <cron-expression>* */5 * * * ?</cron-expression>
+      </cron>
+    </trigger>-->
+  </schedule>
+</job-scheduling-data>

@@ -1,0 +1,31 @@
+﻿主要就是几点注意的。
+一、App.config里面加上两段配置的代码：
+
+	1、Quartz 配置
+	<configSections>
+		<section name="quartz" type="System.Configuration.NameValueSectionHandler, System, Version=1.0.5000.0,Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+			<sectionGroup name="common">
+				<section name="logging" type="Common.Logging.ConfigurationSectionHandler, Common.Logging" />
+			</sectionGroup>
+		<!-- For more information on Entity Framework configuration, visit http://go.microsoft.com/fwlink/?LinkID=237468 -->
+	</configSections>
+	2、控制端打印配置
+	<common>
+		<logging>
+			<factoryAdapter type="Common.Logging.Simple.ConsoleOutLoggerFactoryAdapter, Common.Logging">
+				<arg key="showLogName" value="true" />
+				<arg key="showDataTime" value="true" />
+				<arg key="level" value="DEBUG" />
+				<arg key="dateTimeFormat" value="yyyy/MM/dd HH:mm:ss:fff" />
+			</factoryAdapter>
+		</logging>
+	</common>
+
+二、
+	quartz_jobs.xml》右键》属性》复制到输出目录 ==> 始终复制
+
+三、新建Job（任务）
+	如果要自己添加 Job 只需添加一个Class仿照 SampleJob 的格式实现接口就好了，然后在 quartz_jobs.xml 里面按照格式重新配置一个Job
+
+四、quartz_jobs.xml 路径问题
+	如果想自己修改存放 quartz_jobs.xml 的位置，那么在QuartzServer类的CreateSchedulerFactory方法里面找到  properties["quartz.plugin.xml.fileNames"]（也可以按 Ctrl+Shift+F 搜索 properties["quartz.plugin.xml.fileNames"]） 后面值修对应的路径即可
